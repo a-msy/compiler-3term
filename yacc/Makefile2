@@ -1,0 +1,36 @@
+all: a.out
+
+a.out: y.tab.c lex.yy.c tree.o
+	cc y.tab.c lex.yy.c tree.o -ly -lfl
+
+y.tab.c: parser2.y
+	yacc -d $<
+
+lex.yy.c: scanner2.l
+	lex $<
+
+tree.o: tree.c tree.h
+	cc -c tree.c
+
+test_tree.o: test_tree.c tree.h
+	cc -c test_tree.c
+
+test_tree.out: test_tree.o tree.o
+	cc -o $@ $^
+
+clean:
+	rm -rf y.tab.h y.tab.c lex.yy.c tree.o test_tree.o *~
+
+distclean:
+	rm -rf y.tab.h a.out y.tab.c lex.yy.c tree.o test_tree.o test_tree.out *~
+
+run1:
+	echo "a*bbb+10*xyz+123" | ./a.out
+
+run2:
+	echo "x+y+" | ./a.out
+
+
+
+
+

@@ -1,0 +1,24 @@
+%{
+#include "y.tab.h"
+extern long yylval;
+long copy_lexeme();
+%}
+%%
+[\t ]+ {}
+"+" { return PLUS; }
+"*" { return TIMES; }
+"(" { return LPAR; }
+")" { return RPAR; }
+[0-9]+ { yylval = copy_lexeme(); return NUMBER; }
+[a-z][a-z0-9]* { yylval = copy_lexeme(); return IDENTIFIER; }
+\n { return 0; }
+. { printf("lexical error: '%c'\n", yytext[0]); }
+%%
+char StringTable[1000];
+char *STp = StringTable;
+long copy_lexeme() {
+    long p = (long) STp;
+    strcpy(STp, yytext);
+    STp += strlen(yytext) + 1;
+    return p;
+}

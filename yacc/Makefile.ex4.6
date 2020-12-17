@@ -1,0 +1,25 @@
+all: ex4.6.exe
+
+ex4.6.exe: y.tab.c lex.yy.c
+	cc -o $@ y.tab.c lex.yy.c -ly -lfl
+
+y.tab.c: ex4.6.y
+	yacc -d $<
+
+lex.yy.c: ex4.6.l
+	lex $<
+
+clean:
+	rm -rf y.tab.h y.tab.c lex.yy.c *~
+
+distclean:
+	rm -rf y.tab.h ex4.6.exe y.tab.c lex.yy.c *~
+
+run1:
+	echo "1+2+3+4;" | ./ex4.6.exe
+
+run2:
+	echo "(1+2)*(3*4);" | ./ex4.6.exe
+
+
+

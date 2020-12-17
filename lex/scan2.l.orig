@@ -1,0 +1,12 @@
+%%
+[\t ]+         {}
+"+"            { printf("PLUS "); }
+"*"            { printf("TIMES "); }
+"("            { printf("LPAR "); }
+")"            { printf("RPAR "); }
+[a-z][a-z0-9]* { printf("IDENTIFIER(%s) ", yytext); }
+";"            { printf("SEPARATOR(%s) ", yytext); }
+"\n"           { printf("NEWLINE\n"); }
+.              { printf("lexical error: '%c'\n", yytext[0]);
+                return 0; // stop lexical analysis
+              }
